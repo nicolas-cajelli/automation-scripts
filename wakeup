@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ -z "`ps -Af | grep -o -w ".*eclipse" | grep -v grep | grep -v wakeup`" ]; then
+    # Configure apache (chroot)
+    sudo killall apache2
+    `ps ax | grep eset | awk '{print $1}' | xargs sudo kill`
+    sudo schroot -c chroot_dir -d /root -- service httpd start
+
+    # Daemons
+    ns_indicator -a & > /dev/null
+    gnome-settings-daemon & > /dev/null # Sound & Shortcuts
+
+    # Internet
+    firefox & > /dev/null
+    google-chrome & > /dev/null
+
+    # IMS
+    pidgin & > /dev/null
+    xchat & > /dev/null
+    skype & > /dev/null
+
+    # Development
+    subl & > /dev/null
+    terminator & > /dev/null
+    eclipse & > /dev/null
+    /usr/local/bin/netbeans & > /dev/null
+    /usr/local/bin/mynotex & > /dev/null
+
+    # Everything's OK alarm
+    notify-send  "HAL 9000: I'm completely operational, and all my circuits are functioning perfectly."
+fi
