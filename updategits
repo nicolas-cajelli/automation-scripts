@@ -1,0 +1,11 @@
+#!/bin/bash
+# @author ncajelli
+# Disclaimer: "May fail". Tusam.
+for gitrepo in `find . -name .git`;
+do
+    cd `dirname $gitrepo`
+    pwd
+    BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    git pull origin $BRANCH
+    cd -
+done
